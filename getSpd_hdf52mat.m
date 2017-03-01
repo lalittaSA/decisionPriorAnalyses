@@ -27,6 +27,8 @@ options.preCue_cue.align = 'preCue1000';
 options.preCue_cue.dtun  = 'cueDir';           % CueDir | BiasDir | MoveDir
 options.preCue_cue.filter.Success      = 1;        % selected trials for tuning (can be any task variables)
 options.preCue_cue.sorter.BiasType = [0 1 2 3 4 5 6];   % sort trial types into different conditions (can be any task variables)
+options.preCue_cue.sorter.MappingType  = [1 2];
+options.preCue_cue.sorter.CuingType    = [1 2];
 
 options.preCue_cue_cf.name  = 'preCue_cue_cf';
 options.preCue_cue_cf.align = 'preCue1000';
@@ -49,7 +51,14 @@ options.lateMem.align = 'lateMem500';
 options.lateMem.dtun  = 'biasDir';           % CueDir | BiasDir | MoveDir
 options.lateMem.filter.Success      = 1;        % selected trials for tuning (can be any task variables)
 options.lateMem.sorter.BiasTypeAbs = [0 1 2 3];
-% options.lateMem.sorter.MappingType  = [1 2];   % sort trial types into different conditions (can be any task variables)
+
+options.lateMem_cue.name  = 'lateMem_cue';
+options.lateMem_cue.align = 'lateMem500';
+options.lateMem_cue.dtun  = 'cueDir';           % CueDir | BiasDir | MoveDir
+options.lateMem_cue.filter.Success      = 1;        % selected trials for tuning (can be any task variables)
+options.lateMem_cue.sorter.BiasType = [0 1 2 3 4 5 6];
+options.lateMem_cue.sorter.MappingType  = [1 2];   % sort trial types into different conditions (can be any task variables)
+options.lateMem_cue.sorter.CuingType    = [1 2];
 
 options.lateMem_cf.name  = 'lateMem_cf';
 options.lateMem_cf.align = 'lateMem500';
@@ -73,7 +82,7 @@ options.go_cue.dtun  = 'cueDir';           % CueDir | BiasDir | MoveDir
 options.go_cue.filter.Success      = 1;        % selected trials for tuning (can be any task variables)
 options.go_cue.sorter.BiasType = [0 1 2 3 4 5 6];
 options.go_cue.sorter.CuingType    = [1 2];
-options.go_cue.sorter.Follow  = [0 1];   % sort trial types into different conditions (can be any task variables)
+options.go_cue.sorter.MappingType  = [1 2];   % sort trial types into different conditions (can be any task variables)
 
 options.move.name  = 'move';
 options.move.align = 'move400';
@@ -89,7 +98,7 @@ options.move_cue.dtun  = 'cueDir';           % CueDir | BiasDir | MoveDir
 options.move_cue.filter.Success      = 1;        % selected trials for tuning (can be any task variables)
 options.move_cue.sorter.BiasType = [0 1 2 3 4 5 6];
 options.move_cue.sorter.CuingType    = [1 2];
-options.move_cue.sorter.Follow  = [0 1];   % sort trial types into different conditions (can be any task variables)
+options.move_cue.sorter.MappingType  = [1 2];   % sort trial types into different conditions (can be any task variables)
 
 options.touch.name  = 'touch';
 options.touch.align = 'preTouch500';
