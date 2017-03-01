@@ -28,10 +28,11 @@ pool_monkey = 1 & numel(sel_monkey)>1;
 
 sel_area = {'PMd','PRR'};
 
-sel_tuning = 3; % select units depending on tuning properties
+sel_tuning = 4; % select units depending on tuning properties
 % 1 - motor-goal tuned during late memory period
 % 2 - mem-RT (same direction)
 % 3 - mem-RT-move (same direction)
+% 4 - move 
 
 remove_Oc = 1;      % 1 - remove trials in which pre-cue occurs at unit's PD (to minimize visual activities)
 
@@ -117,8 +118,8 @@ for mm = 1:numel(sel_monkey)
         % sort units according to their max times
         [~,unit_maxAct.sortInd] = sort(unit_maxAct.maxTime);
         
-        spd_mean = grpstats(sub_spd,{'unitName','condName','CueDir'},'mean','DataVars','spikeDensity');
-        spd_mean = unique(outerjoin(spd_mean,sub_spd,'Keys',{'unitName','condName','CueDir'},'Type','left','RightVariables',{'prefDir','maxDir','moveDir'}),'rows');
+%         spd_mean = grpstats(sub_spd,{'unitName','condName','cueDir'},'mean','DataVars','spikeDensity');
+%         spd_mean = unique(outerjoin(spd_mean,sub_spd,'Keys',{'unitName','condName','cueDir'},'Type','left','RightVariables',{'prefDir','maxDir','moveDir'}),'rows');
         spd_mean = unique(outerjoin(spd_mean,unit_maxAct,'Keys',{'unitName'},'Type','left','RightVariables',{'maxAct','maxTime','sortInd'}),'rows');
         spd_mean.mean_spikeDensity_norm = spd_mean.mean_spikeDensity ./ repmat(spd_mean.maxAct,1,nTimeBins(end));
         
@@ -136,12 +137,18 @@ for mm = 1:numel(sel_monkey)
         for dm = 1:n_dir
             cur_unit = spd_mean.maxDir == dir_list(dm); 
             for dd = 1:n_dir
-                cur_dir = spd_mean.CueDir == dir_list(dd);
-                subaxis(4,4,ii)
+                cur_dir = spd_mean.moveDir == dir_list(dd);
+                subplot(4,4,ii)
                 cur_data = spd_mean(cur_unit&cur_dir,{'mean_spikeDensity_norm','sortInd'});
                 cur_data = sortrows(cur_data,'sortInd');
-                spd_plot = spd_plot(spd_mean.sortInd(cur_unit&cur_dir));
-                surf(cur_data.mean_spikeDensity_norm);
+                surf(cur_data.mean_spikeDensity_norm,...
+                    'FaceColor','interp','EdgeColor','none')
+                view(2)
+                colormap jet
+                zlim([0 1]);
+                set(gca,'CLim',[0 1])
+                
+                ii = ii + 1;
             end
         end
         

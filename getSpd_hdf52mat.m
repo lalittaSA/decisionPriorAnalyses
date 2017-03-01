@@ -126,6 +126,7 @@ switch sel_tuning
     case 1, file_suff = '_tuned';
     case 2, file_suff = '_tuned2';
     case 3, file_suff = '_tuned3';
+    case 4, file_suff = '_tuned4';
     otherwise, file_suff = '';
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -251,6 +252,7 @@ for mm = 1:length(sel_monkey)
                     case 1, selected_units = strcmp(unit_info.Area,sel_area{ar}) & unit_info.valide & unit_info.tuning_lateMem2;
                     case 2, selected_units = strcmp(unit_info.Area,sel_area{ar}) & unit_info.valide & unit_info.tuning_lateMem2 & unit_info.tuning_preMove2 & (abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_preMove2_angle)<90 | abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_preMove2_angle)>270);
                     case 3, selected_units = strcmp(unit_info.Area,sel_area{ar}) & unit_info.valide & unit_info.tuning_lateMem2 & unit_info.tuning_preMove2 & unit_info.tuning_move2 & (abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_preMove2_angle)<90 | abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_preMove2_angle)>270) & (abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_move2_angle)<90 | abs(unit_info.tuning_lateMem2_angle - unit_info.tuning_move2_angle)>270) & (abs(unit_info.tuning_move2_angle - unit_info.tuning_preMove2_angle)<90 | abs(unit_info.tuning_move2_angle - unit_info.tuning_preMove2_angle)>270);
+                    case 4, selected_units = strcmp(unit_info.Area,sel_area{ar}) & unit_info.valide & unit_info.tuning_move2;
                     otherwise, selected_units = strcmp(unit_info.Area,sel_area{ar}) & unit_info.valide;
                 end
                 dataset_names = unit_info.dataset_name(selected_units);
@@ -287,10 +289,15 @@ for mm = 1:length(sel_monkey)
                 spd_table = cell2table(cell(sum(filter),length(header)),'VariableNames',header);
                 spd_table.unitName = unit_table_tmp.dataset_name(filter);
                 
-                spd_table.prefDir = unit_table_tmp.tuning_lateMem2_angle(filter);
-                spd_table.maxAct = unit_table_tmp.tuning_lateMem2_maxAct(filter);
-                spd_table.maxDir = unit_table_tmp.tuning_lateMem2_maxDir(filter);
-                
+                if sel_tuning == 4
+                    spd_table.prefDir = unit_table_tmp.tuning_move2_angle(filter);
+                    spd_table.maxAct = unit_table_tmp.tuning_move2_maxAct(filter);
+                    spd_table.maxDir = unit_table_tmp.tuning_move2_maxDir(filter);
+                else
+                    spd_table.prefDir = unit_table_tmp.tuning_lateMem2_angle(filter);
+                    spd_table.maxAct = unit_table_tmp.tuning_lateMem2_maxAct(filter);
+                    spd_table.maxDir = unit_table_tmp.tuning_lateMem2_maxDir(filter);
+                end
                 spd_table.spikeDensity = density(filter);
                 spd_table.spikeDensity = cell2mat(spd_table.spikeDensity);
                 
